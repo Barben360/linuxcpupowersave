@@ -12,6 +12,6 @@ rm /etc/acpi/events/switch-to-ac
 rm /etc/acpi/events/switch-to-battery
 rm /usr/local/bin/switch_cpu_perf_mode
 
-sed -i '/@reboot \/usr\/local\/bin\/switch_cpu_perf_mode/d' /var/spool/cron/crontabs/root
+sed -i '/@reboot sleep 5 && \/usr\/local\/bin\/switch_cpu_perf_mode/d' /var/spool/cron/crontabs/root
 
 echo "Done. Please reboot."

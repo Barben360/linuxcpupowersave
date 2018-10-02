@@ -10,6 +10,6 @@ rsync -av ./scripts/etc /
 cp ./scripts/switch_cpu_perf_mode /usr/local/bin
 
 sed -i '/@reboot \/usr\/local\/bin\/switch_cpu_perf_mode/d' /var/spool/cron/crontabs/root
-echo "@reboot /home/bbarrois/.scripts/switch_cpu_perf_mode.sh" >> /var/spool/cron/crontabs/root
+echo "@reboot sleep 5 && /home/bbarrois/.scripts/switch_cpu_perf_mode.sh" >> /var/spool/cron/crontabs/root
 
 echo "Done. Please reboot."
