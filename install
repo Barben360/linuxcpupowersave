@@ -1,15 +1,24 @@
-#!/bin/sh
-
-echo "Installing powersave scripts..."
+#!/bin/bash
+ 
+echo "Installing CPU Power Management scripts..."
 if [[ $EUID -ne 0 ]]; then
    echo "This script must be run as root" 1>&2
    exit 1
 fi
 
+echo "Installing one-shot script..."
+rsync -av ./scripts/usr /
+
+echo "Installing event-triggered and service files..."
 rsync -av ./scripts/etc /
-cp ./scripts/switch_cpu_perf_mode /usr/local/bin
 
-sed -i '/@reboot \/usr\/local\/bin\/switch_cpu_perf_mode/d' /var/spool/cron/crontabs/root
-echo "@reboot sleep 5 && /home/bbarrois/.scripts/switch_cpu_perf_mode.sh" >> /var/spool/cron/crontabs/root
+echo "Restarting systemd daemon..."
+systemctl daemon-reload
 
-echo "Done. Please reboot."
+echo "Enabling service..."
+systemctl enable switch_cpu_perf_mode.service
+
+echo "Starting service..."
+systemctl start switch_cpu_perf_mode.service
+
+echo "Done."

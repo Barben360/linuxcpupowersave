@@ -1,17 +1,28 @@
-#!/bin/sh
+#!/bin/bash
 
-echo "Uninstalling CPU powersave scripts..."
+echo "Uninstalling CPU Power Management scripts..."
 if [[ $EUID -ne 0 ]]; then
    echo "This script must be run as root" 1>&2
    exit 1
 fi
 
+echo "Stopping service..."
+systemctl stop switch_cpu_perf_mode.service
+
+echo "Disabling service..."
+systemctl disable switch_cpu_perf_mode.service
+
+echo "Restarting systemd daemon..."
+systemctl daemon-reload
+
+echo "Removing service files..."
+rm /etc/systemd/system/switch_cpu_perf_mode.service
+rm /usr/local/bin/switch_cpu_perf_mode
+
+echo "Removing acpi events..."
 rm /etc/acpi/switch-to-ac
 rm /etc/acpi/switch-to-battery
 rm /etc/acpi/events/switch-to-ac
 rm /etc/acpi/events/switch-to-battery
-rm /usr/local/bin/switch_cpu_perf_mode
 
-sed -i '/@reboot sleep 5 && \/usr\/local\/bin\/switch_cpu_perf_mode/d' /var/spool/cron/crontabs/root
-
-echo "Done. Please reboot."
+echo "Done."
