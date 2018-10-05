@@ -1,9 +1,0 @@
-#!/usr/bin/env sh
-
-ac_adapter=$(acpi -a | cut -d' ' -f3 | cut -d- -f1)
-
-if [ "$ac_adapter" = "on" ]; then
-    cpufreq-set -r -g performance
-else
-    cpufreq-set -r -g powersave
-fi
