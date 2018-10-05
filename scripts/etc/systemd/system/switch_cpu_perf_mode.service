@@ -1,0 +1,10 @@
+[Unit]
+Description=Switch CPU performance mode
+After=cpufrequtils.service
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/bin/switch_cpu_perf_mode
+
+[Install]
+WantedBy=multi-user.target
