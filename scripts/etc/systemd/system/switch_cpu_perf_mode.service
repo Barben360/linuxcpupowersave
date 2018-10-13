@@ -3,7 +3,7 @@ Description=Switch CPU performance mode
 After=cpufrequtils.service
 
 [Service]
-Type=oneshot
+Type=idle
 ExecStart=/usr/local/bin/switch_cpu_perf_mode
 
 [Install]
